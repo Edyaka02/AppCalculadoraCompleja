@@ -14,6 +14,7 @@
 @property NSString *opUnitario;
 @property double numero2;
 @property BOOL esNumero;
+// Se almacena el valor guardado en memoria
 @property double memoria;
 
 @property (weak) IBOutlet NSTextField *resultado;

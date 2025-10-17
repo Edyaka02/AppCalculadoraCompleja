@@ -19,17 +19,24 @@
     [super setRepresentedObject:representedObject];
 }
 
+// Suma el valor actual de la pantalla a lo que
+// está en memoria
 - (IBAction)memoriaAdd:(id)sender {
     self.memoria += [self.resultado.stringValue doubleValue];
+    self.esNumero = NO;
 }
 
+// Recupera el valor actual que está en memoria
+// y lo muestra en pantalla
 - (IBAction)memoriaRecall:(id)sender {
     self.resultado.stringValue = [NSString stringWithFormat:@"%g", self.memoria];
     self.esNumero = NO;
 }
 
+// Guarda el valor actual en memoria
 - (IBAction)memoriaStore:(id)sender {
     self.memoria = [self.resultado.stringValue doubleValue];
+    self.esNumero = NO;
 }
 
 - (IBAction)operadorUnitario:(id)sender {
@@ -39,25 +46,40 @@
     self.opUnitario = boton.title;
     
     if([self.opUnitario isEqualToString:@"1/x"]){
+        
+        // Se maneja la division entre 0
         if(valor == 0){
+            // Si es cero, muestra Error
             self.resultado.stringValue = @"Error";
             return;
         }
+        
         resul = 1.0 / valor;
+        
     } else if([self.opUnitario isEqualToString:@"sqrt"]){
+        
+        // Valida las raices negativas
         if(valor < 0){
+            // Si es una raiz negativa, muestra Error
             self.resultado.stringValue = @"Error";
             return;
         }
+        
         resul = sqrt(valor);
+        
     } else if([self.opUnitario isEqualToString:@"sin"]){
+        // Convertimos los grados en radianes
         double radianes = valor * M_PI / 180;
         resul = sin(radianes);
+        
     } else if ([self.opUnitario isEqualToString:@"cos"]){
+        // Convertimos los grados en radianes
         double radianes = valor * M_PI / 180;
         resul = cos(radianes);
+        
     }
     
+    // Mostramos el resultado en pantalla
     self.resultado.stringValue = [NSString stringWithFormat:@"%g", resul];
     self.esNumero = NO;
 }
@@ -66,11 +88,16 @@
     //NSString *numero = sender.
     NSButton *boton = (NSButton *)sender;
     NSString *numero = boton.title;
-    
+
+    // Validación para evitar que haya varios puntos decimales
     if([numero isEqualToString:@"."]){
+        
+        // Si ya hay un punto no se permite otro
         if([self.resultado.stringValue containsString:@"."]){
             return;
         }
+        
+        // Si no es un numero, inicia con 0.
         if(!self.esNumero){
             self.resultado.stringValue = @"0.";
             self.esNumero = YES;
