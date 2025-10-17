@@ -11,8 +11,10 @@
 
 @property double numero1;
 @property NSString *operador;
+@property NSString *opUnitario;
 @property double numero2;
 @property BOOL esNumero;
+@property double memoria;
 
 @property (weak) IBOutlet NSTextField *resultado;
 
@@ -24,6 +26,13 @@
 - (IBAction)numeros:(id)sender;
 
 - (IBAction)operadorUnitario:(id)sender;
+
+- (IBAction)memoriaStore:(id)sender;
+- (IBAction)memoriaRecall:(id)sender;
+- (IBAction)memoriaAdd:(id)sender;
+
+
+
 
 
 

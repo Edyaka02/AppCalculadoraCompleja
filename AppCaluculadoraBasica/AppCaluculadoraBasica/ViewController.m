@@ -13,39 +13,49 @@
     [super viewDidLoad];
     
     self.esNumero = NO;
-    
 }
-
 
 - (void)setRepresentedObject:(id)representedObject {
     [super setRepresentedObject:representedObject];
-
-    // Update the view, if already loaded.
 }
 
+- (IBAction)memoriaAdd:(id)sender {
+    self.memoria += [self.resultado.stringValue doubleValue];
+}
+
+- (IBAction)memoriaRecall:(id)sender {
+    self.resultado.stringValue = [NSString stringWithFormat:@"%g", self.memoria];
+    self.esNumero = NO;
+}
+
+- (IBAction)memoriaStore:(id)sender {
+    self.memoria = [self.resultado.stringValue doubleValue];
+}
 
 - (IBAction)operadorUnitario:(id)sender {
     double valor = [self.resultado.stringValue doubleValue];
     double resul = 0;
     NSButton *boton = (NSButton *)sender;
-    NSString *opUnitario = boton.title;
+    self.opUnitario = boton.title;
     
-    if([opUnitario isEqualToString:@"1/x"]){
+    if([self.opUnitario isEqualToString:@"1/x"]){
         if(valor == 0){
             self.resultado.stringValue = @"Error";
             return;
         }
         resul = 1.0 / valor;
-    } else if([opUnitario isEqualToString:@"sqrt"]){
+    } else if([self.opUnitario isEqualToString:@"sqrt"]){
         if(valor < 0){
             self.resultado.stringValue = @"Error";
             return;
         }
         resul = sqrt(valor);
-    } else if([opUnitario isEqualToString:@"sin"]){
-        resul = sin(valor);
-    } else if ([opUnitario isEqualToString:@"cos"]){
-        resul = cos(valor);
+    } else if([self.opUnitario isEqualToString:@"sin"]){
+        double radianes = valor * M_PI / 180;
+        resul = sin(radianes);
+    } else if ([self.opUnitario isEqualToString:@"cos"]){
+        double radianes = valor * M_PI / 180;
+        resul = cos(radianes);
     }
     
     self.resultado.stringValue = [NSString stringWithFormat:@"%g", resul];
@@ -112,6 +122,7 @@
     self.resultado.stringValue = @"0";
     self.numero1 = 0;
     self.numero2 = 0;
+    self.memoria = 0;
     self.esNumero = NO;
     self.operador = @"";
 }
